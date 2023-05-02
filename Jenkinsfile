@@ -3,16 +3,6 @@ pipeline {
 
     environment {
         PROJECT_ID = "your_project_id"
-        BUCKET_NAME = "your_bucket_name"
-        CLUSTER_NAME = "your_cluster_name"
-        REGION = "your_region"
-        DATASET = "your_dataset_name"
-        TABLE = "your_table_name"
-        SCRIPTS_DIR = "scripts"
-        VENV_DIR = "venv"
-        IMAGE_NAME = "your_image_name"
-        TAG_NAME = "your_tag_name"
-        DEPLOYMENT_NAME = "your_deployment_name"
     }
 
     stages {
@@ -32,14 +22,20 @@ pipeline {
             steps {
                 sh "kubectl delete job bdaproject-stage1-job || true"
                 sh "kubectl apply -f ./StackOverFlow-tag-predict-system/deployment/stage1-job.yaml"
-                sh "kubectl wait --for=condition=complete --timeout=10m job/bdaproject-stage1-job"
+                sh "kubectl wait --for=condition=complete --timeout=30m job/bdaproject-stage1-job"
             }
         }
-        stage("Train model and upload") {
+        stage("Preprocessing and build model") {
             steps {
                 sh "kubectl delete job bdaproject-stage2-job || true"
                 sh "kubectl apply -f ./StackOverFlow-tag-predict-system/deployment/stage2-job.yaml"
-                sh "kubectl wait --for=condition=complete --timeout=10m job/bdaproject-stage2-job"
+                sh "kubectl wait --for=condition=complete --timeout=30m job/bdaproject-stage2-job"
+            }
+        }
+        stage("Deploy model") {
+            steps {
+                sh "kubectl delete -f ./StackOverFlow-tag-predict-system/deployment/stage3-deployment.yaml || true"
+                sh "kubectl apply -f ./StackOverFlow-tag-predict-system/deployment/stage3-deployment.yaml"
             }
         }
     }
