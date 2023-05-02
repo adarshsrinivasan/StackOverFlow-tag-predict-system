@@ -9,6 +9,6 @@ spec:
       - name: bdaproject-stage2
         image: adarshzededa/bdaproject-stage2:latest
         imagePullPolicy: Always
-        command: ["python", "submit-pyskark-job.py", "--pyspark_file", "/bda-stackoverflow-tags/pyspark-job.py", "--project_id", "bdastackoverflow", "--region", "us-central1", "--cluster_name", "bda-dataproc", "--gcs_bucket", "bda-dataproc"]
+        command: ["python", "train-the-model.py"]
       restartPolicy: Never
   backoffLimit: 0
