@@ -1,0 +1,8 @@
+FROM adarshzededa/bdaproject-base:latest
+
+WORKDIR /bda-stackoverflow-tags
+
+COPY stage1-fetch-data/pyspark-job.py .
+COPY stage1-fetch-data/submit-pyskark-job.py .
+
+ENTRYPOINT ["python", "submit-pyskark-job.py", "--pyspark_file", "/bda-stackoverflow-tags/pyspark-job.py"]

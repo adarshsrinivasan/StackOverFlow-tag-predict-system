@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bda-project-app
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bda-project-app
+  template:
+    metadata:
+      labels:
+        app: bda-project-app
+    spec:
+      securityContext:
+            fsGroup: 1000
+            runAsUser: 1000
+      containers:
+        - name: jenkins
+          image: adarshzededa/bdaproject-stage3:latest
+          command: ["python", "bda-application.py", "--project_id", "bdastackoverflow", "--gcs_bucket", "bda-dataproc"]
+          imagePullPolicy: Always
+          resources:
+            limits:
+              memory: "4Gi"
+              cpu: "1000m"
+            requests:
+              memory: "500Mi"
+              cpu: "500m"
+          ports:
+            - name: httpport
+              containerPort: 5000
+          livenessProbe:
+            httpGet:
+              path: "/api/ping"
+              port: 5000
+            initialDelaySeconds: 90
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 5
+          readinessProbe:
+            httpGet:
+              path: "/api/ping"
+              port: 5000
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3

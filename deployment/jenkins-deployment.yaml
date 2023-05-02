@@ -16,10 +16,9 @@ spec:
       securityContext:
             fsGroup: 1000
             runAsUser: 1000
-#      serviceAccountName: jenkins-admin
       containers:
         - name: jenkins
-          image: adarshzededa/bdaproject:latest
+          image: adarshzededa/bdaproject-infra:latest
           imagePullPolicy: Always
           resources:
             limits:
@@ -52,14 +51,7 @@ spec:
           volumeMounts:
             - name: jenkins-data
               mountPath: /var/jenkins_home
-            - name: docker-sock
-              mountPath: /var/run/docker.sock
       volumes:
         - name: jenkins-data
           emptyDir:
             sizeLimit: 500Mi
-        - name: docker-sock
-          hostPath:
-            path: /var/run/docker.sock
-#          persistentVolumeClaim:
-#              claimName: jenkins-pv-claim

@@ -1,13 +1,14 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: bdaproject-stage1-job
+  name: bdaproject-stage2-job
 spec:
   template:
     spec:
       containers:
-      - name: bdaproject-stage1
-        image: adarshzededa/bdaproject-stage1:latest
+      - name: bdaproject-stage2
+        image: adarshzededa/bdaproject-stage2:latest
+        imagePullPolicy: Always
         command: ["python", "submit-pyskark-job.py", "--pyspark_file", "/bda-stackoverflow-tags/pyspark-job.py", "--project_id", "bdastackoverflow", "--region", "us-central1", "--cluster_name", "bda-dataproc", "--gcs_bucket", "bda-dataproc"]
       restartPolicy: Never
   backoffLimit: 0

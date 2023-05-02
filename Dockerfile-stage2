@@ -1,0 +1,7 @@
+FROM adarshzededa/bdaproject-base:latest
+
+WORKDIR /bda-stackoverflow-tags
+
+COPY stage2-train-model/train-the-model.py .
+
+ENTRYPOINT ["python", "train-the-model.py"]

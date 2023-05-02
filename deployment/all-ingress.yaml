@@ -1,15 +1,15 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: jenkins-ingress
+  name: bda-project-ingress
   annotations:
     # If the class annotation is not specified it defaults to "gce".
     kubernetes.io/ingress.class: "gce"
     # nginx.ingress.kubernetes.io/proxy-body-size: 16m
-    # nginx.ingress.kubernetes.io/rewrite-target: /$2 
+#    nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
   rules:
-  - host: bdastackoverflow
+  - host: bdajenkins
     http:
       paths:
       - path: /*
@@ -19,3 +19,13 @@ spec:
             name:  jenkins-service
             port:
               number: 8080
+  - host: bdaapp
+    http:
+      paths:
+        - path: /*
+          pathType: ImplementationSpecific
+          backend:
+            service:
+              name: bda-project-app-service
+              port:
+                number: 5000

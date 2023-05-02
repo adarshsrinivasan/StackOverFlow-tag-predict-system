@@ -8,6 +8,7 @@ spec:
       containers:
       - name: bdaproject-stage1
         image: adarshzededa/bdaproject-stage1:latest
+        imagePullPolicy: Always
         command: ["python", "submit-pyskark-job.py", "--pyspark_file", "/bda-stackoverflow-tags/pyspark-job.py", "--project_id", "bdastackoverflow", "--region", "us-central1", "--cluster_name", "bda-dataproc", "--gcs_bucket", "bda-dataproc"]
       restartPolicy: Never
   backoffLimit: 0

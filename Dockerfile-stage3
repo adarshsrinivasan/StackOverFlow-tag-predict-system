@@ -1,0 +1,9 @@
+FROM adarshzededa/bdaproject-base:latest
+
+WORKDIR /bda-stackoverflow-tags
+
+COPY stage3-application/bda-application.py .
+
+EXPOSE 5000
+
+ENTRYPOINT ["python", "bda-application.py"]
